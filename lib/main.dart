@@ -55,6 +55,7 @@ class ShoppingListState extends State<ShoppingList> {
 
   // String? _currentSelectedValue = "Food";
 
+  // #region loadData()
   void loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? jsonData = prefs.getString('shop_list_key');
@@ -67,24 +68,30 @@ class ShoppingListState extends State<ShoppingList> {
       setState(() {});
     }
   }
+  // #endregion
 
+  // #region saveData()
   void saveData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     String jsonData = jsonEncode(_items);
     prefs.setString('shop_list_key', jsonData);
   }
+  // #endregion
 
+  // #region clearData()
   void clearData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
   }
+  // #endregion
 
   ShoppingListState() {
     loadData();
   }
 
   @override
+// #region Widget build()
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -137,7 +144,9 @@ class ShoppingListState extends State<ShoppingList> {
       ],
     );
   }
+// #endregion
 
+// #region onReorder()
   void onReorder(int oldIndex, int newIndex) {
     if (newIndex > oldIndex) newIndex--;
 
@@ -150,6 +159,7 @@ class ShoppingListState extends State<ShoppingList> {
       saveData();
     });
   }
+// #endregion
 
   List<Widget> _getListItems() => _items
       .asMap()
@@ -208,7 +218,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Shopping List Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
